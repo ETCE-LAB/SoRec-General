@@ -14,7 +14,7 @@ The SoRec project focuses on digitalising sorting processes for fine-grained, me
 The high-level architecture of the project is shown below. Each box is an independent service or artifact.
 The web portal is the interface to the user. Here the user sees bundled information on individual machines and can control them from there. Control works by sending an http request from the web portal to the ManageBackend. This forwards the request to the MachineBackend, which communicates with the machine via a PLC connection. The interpretation works the other way round. The MachineBackend reads the current status of a machine and sends this data to the Manage Backend. This forwards the data to the Azure Digital Graph. An endpoint is then called from the Manage backend via Azure Eventgrid and notified that there is new data in the digital graph. This is then retrieved from the Manage backend and forwarded to the web portal via a socket connection. We use an external identity server for authentication and authorization. In our system, this is a Duende service that adheres to the OIDC standard.
 
-![High-Level]](System-Architecture/20250119_Sorec-High-Level-Architecture.png?raw=true "High-Level Architecture")
+![High-Level](System-Architecture/20250119_Sorec-High-Level-Architecture.png?raw=true "High-Level Architecture")
 
 
 ### Refined Architecture & Digital Twin
@@ -26,14 +26,14 @@ Below is the refined technical architecture of our individual services.
 * DigitalTwin: The digital twins are managed centrally in the Microsoft Azure portal. An Azure Digital Twins instance has been set up that enables a graph-based display of the digital twins and their relationships. The management backend was expanded to include an interface to the Azure Digital Twins API, with which twins can be created, deleted, updated and their relationships defined via the application. These operations can be carried out via the web portal.
 The status data of the machines transmitted from the machine backend is processed in the management backend and provided graphically on the machine view page. This integration simplifies precise and needs-based updating of the digital twins in the Azure Digital Twins Graph.
 
-![Refined-Architecture]](System-Architecture/20250119_Sorec-Refined-Architecture.png?raw=true "Refined-Architecture")
+![Refined-Architecture](System-Architecture/20250119_Sorec-Refined-Architecture.png?raw=true "Refined-Architecture")
 
 
 ### Domain Model
 
 The domain model is the technical core of the system. Classic user management has been implemented. User profiles can be members of an organization. If they are members, they are able to invite other user profiles. They can accept or decline the invitation. Each member of an organization can create locations, i.e. locations where machines are located. There can be any number of machines at a location. Here you can also see which data is viewed for a machine. SpeedOfBelt and SpeedOfDrum can be measured directly. SortingQuality and ThroughPut are calculated by AI models. Cameras that record images are attached to a machine.
 
-![Domain-Model]](System-Architecture/20250119_Sorec-Domain-Model.png?raw=true "Domain Model")
+![Domain-Model](System-Architecture/20250119_Sorec-Domain-Model.png?raw=true "Domain Model")
 
 
 
