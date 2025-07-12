@@ -8,7 +8,8 @@ Closing material and resource cycles is an integral part of the circular economy
 
 The SoRec project focuses on digitalising sorting processes for fine-grained, metal-containing waste streams in the recycling industry. By installing state-of-the-art industrial line cameras and sensors, we are digitizing the conventional sorting method on a moving belt. With the help of advanced AI models and algorithms in deep learning and machine learning, our system can accurately detect materials on the conveyor belt, classify them based on size, shape, and color, and even find their precise edges. With the capability to identify multiple layers of materials, the AI model provides valuable density and volume estimation. To ensure real-time efficiency and control, we have integrated the AI model with powerful computer vision techniques, which handle crucial image processing tasks. This seamless collaboration between AI and computer vision allows us to estimate the belt’s speed and detect any anomalies, ensuring precise sorting and preventing belt misalignments. Our materials, measuring 1 mm to 4 mm in size, demand meticulous attention to detail, necessitating high-level zoom capabilities for precise annotations. With this innovative AI-driven system, we are taking a significant step towards automating and optimizing the sorting process, enhancing productivity, and elevating the industry to new heights of accuracy and efficiency.
 
-Few images of our material has been shown in below images
+<span style="color:#537686; font-weight:bold;">Few images of our material have been shown in the images below.</span>
+
 <p align="center">
   <img src="Images/1 mm.jpeg" alt="Left Image" width="250"/>
   <img src="Images/2-3 mm.jpeg" alt="Center Image" width="250"/>
@@ -50,7 +51,7 @@ To implement the intelligent Twin-AI BECS system, we first installed the necessa
   <img src="Images/camera-setup.jpg" alt="Sample Image" width="500"/>
 </p>
 
-###  Cameras Used
+###  Cameras 
 
 The Twin-AI BECS system utilizes a variety of camera modules, each serving a specific purpose in monitoring and optimizing the recycling process:
 
