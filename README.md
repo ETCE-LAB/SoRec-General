@@ -153,6 +153,7 @@ cd SoRec-General
 
 
 **Requirements for Thermal Fire Detection**
+
 - Sensor: MLX90640 thermal camera (via I2C)
 - A visual representation of the sensor setup is shown in the image below.
 <p align="center">
@@ -179,6 +180,7 @@ OPC_Daten.Anlage_ausschalten (index = " keep your PLC's index number")
 
 
 **Requirements for Material Edge Detection with YOLOv11**
+
 - Recommended system: Laptop with a dedicated GPU for fast inference
 - A visual representation of the sensor setup is shown in the image below.
 
@@ -213,6 +215,7 @@ One common issue with YOLOv11 is the model not running on the GPU even when one 
 - Missing or misconfigured GPU drivers
   
 **Solution: Verify GPU Compatibility**
+
 Make sure your system detects your GPU and PyTorch is configured for CUDA:
 
 ```bash
@@ -226,7 +229,7 @@ If the output is False, your model is running on CPU and you must:
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
--
+
 Check torch version and device:
 
 ```bash
@@ -241,6 +244,7 @@ print(torch.cuda.get_device_name(0))
 ```
 
 **Line-Scan Camera Image Quality Issues**
+
 Working with line-scan cameras requires careful setup to achieve optimal image quality. Problems often arise due to poor lighting, lens mismatch, or incorrect camera speed.
 
 Best Practices:
@@ -256,9 +260,10 @@ sudo apt install pylon
 ```
 
 **PyTorch & Ultralytics Compatibility**
+
 To avoid dependency issues, it’s important to install the compatible versions of PyTorch and Ultralytics:
 
-``bash
+```bash
 pip install torch==2.0.1 torchvision==0.15.2
 pip install ultralytics
 ```
@@ -270,6 +275,7 @@ python -c "import torch; import torchvision; print(torch.__version__, torchvisio
 ```
 
 **Line-Scan Image Annotation Format**
+
 If you're facing issues with training or annotation:
 
 - Use YOLOv11 segmentation format (with .txt polygon coordinates)
