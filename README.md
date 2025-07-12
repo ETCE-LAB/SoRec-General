@@ -6,7 +6,12 @@
 
 Closing material and resource cycles is an integral part of the circular economy. Many products (especially electronic devices) are becoming increasingly complex regarding their structure and raw materials. To recover raw materials, the products must be broken down into ever-finier grain sizes and subsequently sorted. In general, dry sorting processes achieve good sorting results in the fine particle size range with lower throughputs. However, when increasing the throughput, the quality of the sorting results decreases considerably. In order to operate profitably, sorting machines must work as close as possible to the tipping point between good quality and maximum throughput while also minimising maintenance downtimes.
 
-The SoRec project focuses on digitalising sorting processes for fine-grained, metal-containing waste streams in the recycling industry. By installing state-of-the-art industrial line cameras and sensors, we are digitizing the conventional sorting method on a moving belt. With the help of advanced AI models and algorithms in deep learning and machine learning, our system can accurately detect materials on the conveyor belt, classify them based on size, shape, and color, and even find their precise edges. With the capability to identify multiple layers of materials, the AI model provides valuable density and volume estimation. To ensure real-time efficiency and control, we have integrated the AI model with powerful computer vision techniques, which handle crucial image processing tasks. This seamless collaboration between AI and computer vision allows us to estimate the belt’s speed and detect any anomalies, ensuring precise sorting and preventing belt misalignments. Our materials, measuring just 1 mm in size, demand meticulous attention to detail, necessitating high-level zoom capabilities for precise annotations. With this innovative AI-driven system, we are taking a significant step towards automating and optimizing the sorting process, enhancing productivity, and elevating the industry to new heights of accuracy and efficiency.
+The SoRec project focuses on digitalising sorting processes for fine-grained, metal-containing waste streams in the recycling industry. By installing state-of-the-art industrial line cameras and sensors, we are digitizing the conventional sorting method on a moving belt. With the help of advanced AI models and algorithms in deep learning and machine learning, our system can accurately detect materials on the conveyor belt, classify them based on size, shape, and color, and even find their precise edges. With the capability to identify multiple layers of materials, the AI model provides valuable density and volume estimation. To ensure real-time efficiency and control, we have integrated the AI model with powerful computer vision techniques, which handle crucial image processing tasks. This seamless collaboration between AI and computer vision allows us to estimate the belt’s speed and detect any anomalies, ensuring precise sorting and preventing belt misalignments. Our materials, measuring 1 mm to 4 mm in size, demand meticulous attention to detail, necessitating high-level zoom capabilities for precise annotations. With this innovative AI-driven system, we are taking a significant step towards automating and optimizing the sorting process, enhancing productivity, and elevating the industry to new heights of accuracy and efficiency.
+# Few images of our material has been shown in below images
+![1 mm](1 mm/1 mm.jpeg?raw=true "1 mm")
+![2-3 mm](2-3 mm/2-3 mm.jpeg?raw=true "2-3 mm")
+![4 mm](4 mm/4 mm.jpeg?raw=true "4 mm")
+
 
 ## System Architecture
 
@@ -34,6 +39,242 @@ The status data of the machines transmitted from the MachineBackend is processed
 The domain model is the technical core of the system. Classic user management has been implemented. User profiles can be members of an organization. If they are members, they are able to invite other user profiles. They can accept or decline the invitation. Each member of an organization can create locations, i.e. locations where machines are located. There can be any number of machines at a location. Here you can also see which data is viewed for a machine. SpeedOfBelt and SpeedOfDrum can be measured directly. SortingQuality and ThroughPut are calculated by AI models. Cameras that record images are attached to a machine.
 
 ![Domain-Model](System-Architecture/20250119_Sorec-Domain-Model.png?raw=true "Domain Model")
+
+# Setup 
+To implement the intelligent Twin-AI BECS system, we first installed the necessary hardware infrastructure and camera modules above the conveyor belt of the eddy current separator. As shown in the below image, a robust mounting stand was custom-built using industrial aluminum item profiles, enabling the installation of multiple cameras at various positions and angles for comprehensive coverage.
+
+![camera-setup](camera-setup/camera-setup.jpg?raw=true "Camera Setup")
+
+### 📷 Cameras Used
+
+The Twin-AI BECS system utilizes a variety of camera modules, each serving a specific purpose in monitoring and optimizing the recycling process:
+
+| Camera Model                          | Purpose                                                                 |
+|--------------------------------------|-------------------------------------------------------------------------|
+| **Basler raL 12288-8gm1 (Line-Scan Monochrome)** | Shape detection of fine metallic particles (1–4 mm) on the conveyor     |
+| **4× ELP 8MP USB Cameras with HD 5–50 mm Lenses** | Color detection and classification of metals (aluminum, copper, brass)  |
+| **2× GoPro Hero 12**                 | Capturing reference videos under various lighting and machine settings  |
+| **Raspberry Pi Camera v2.1**         | Real-time detection of conveyor belt misalignment                       |
+| **MLX90640 Thermal Camera**          | Monitoring temperature near the magnetic drum to detect overheating     |
+
+This multi-camera setup was installed on a custom-built aluminum profile frame above the eddy current separator and remained in operation for approximately one year, enabling extensive data collection under various material conditions and speeds.
+
+## Data Collection and Annotation
+Over the course of approximately one year, the Twin-AI BECS system was deployed in a real industrial environment. During this period, various operating conditions were tested by adjusting the speeds of the conveyor belt, magnetic drum, and vibration feeder, while processing a wide range of input materials including aluminum, copper, plastic, and sharp-edged metals.
+
+Images and videos were captured continuously from multiple camera angles. In parallel, several team members manually annotated the collected data to prepare high-quality training datasets for the machine vision models used in the project.
+
+# The complete dataset — including raw images, annotated masks, and labeled samples — is publicly available at:
+
+[Project Dataset on Göttingen Research Online](https://data.goettingen-research-online.de/dataverseuser.xhtml?selectTab=dataRelatedToMe)
+
+## SoRec Project Structure and Submodules
+
+The comprehensive **SoRec project** (Smart Optimization and Recognition in Eddy Current Separator) was divided into **three core subprojects** to simplify implementation and modular development:
+
+---
+
+### Smart Conveyor System
+
+**Objective**: Prevent physical and operational hazards, including:
+
+- **Conveyor belt misalignment**, which may lead to material collision or falling
+- **Overheating of the belt surface** due to trapped magnetic debris
+- **Sharp-edged materials** passing through, which can damage the belt or cause inaccurate separation
+
+# This subproject includes the following key modules:
+
+- **AutoBeltAlign**: Detects and corrects conveyor misalignment using OpenCV
+- **FireGuard**: Detects fire risk and sends alerts via thermal camera and Telegram
+- ✂**Material-Edge-Detection**: Identifies sharp-edged particles using YOLOv11 segmentation
+  # Note: Please refer to paper -> SmartBelt.pdf 
+
+---
+
+###  Metal Type and Color Recognition (PiVisionSort)
+
+This module uses RGB camera input and color features (HSV space) to distinguish between different metal types, such as **copper vs. aluminum**.  
+It employs lightweight machine learning algorithms like **KMeans** and **Decision Trees**, with real-time classification displayed directly on the video feed.
+# Note: Please refer to paper -> PiVisionSort.pdf
+---
+
+### Smart Separator Optimization
+
+This submodule trains a **Random Forest regression model** to analyze output material weights and recommend optimal settings for:
+
+- Conveyor belt speed  
+- Magnetic drum speed  
+- Vibration feeder rate  
+- Drum angle  
+
+This leads to improved separation quality and reduced energy consumption.
+# Note: Please refer to paper -> SmartSeparator.pdf
+
+## Hardware and Software Requirements per Module
+
+---
+
+### Requirements for Belt Misalignment Correction
+
+- **Python version**: 3.8 or higher  
+- **Required libraries**:
+  ```bash
+  pip install opencv-python numpy matplotlib
+  ```
+
+# - Operating system: Raspberry Pi OS or Ubuntu
+# - Camera: PiCamera 
+# - Motors: Stepper motors with driver for belt alignment correction
+# - Script:LineDetection.ipynb
+# - A visual representation is shown in the image below.
+![right-line-detected](right-line-detected/right-line-detected.png?raw=true "right-line-detected")
+
+### Requirements for Thermal Fire Detection
+# - Sensor: MLX90640 thermal camera (via I2C)
+# - A visual representation of the sensor setup is shown in the image below.
+![heating camera](heating camera/heating camera.jpg?raw=true "heating camera")
+
+# - Required libraries:
+
+  ```bash
+pip install adafruit-circuitpython-mlx90640
+pip install python-telegram-bot
+pip install python-opcua
+```
+
+# - Telegram Bot: Set the token in a .env file
+# - PLC Integration: Define an OPC UA node:
+  ```bash
+OPC_Daten.Anlage_ausschalten (index = " keep your PLC's index number")
+```
+# - Script:Fire_detection_module.ipynb
+
+
+### Requirements for Material Edge Detection with YOLOv11
+# - Recommended system: Laptop with a dedicated GPU for fast inference
+# - A visual representation of the sensor setup is shown in the image below.
+![line-scan-camera](line-scan-camera/line-scan-camera.jpeg?raw=true "line-scan-camera")
+
+# - Install PyTorch and Ultralytics:
+  ```bash
+pip install torch torchvision
+pip install ultralytics
+```
+# - Run the YOLOv11n model using a pre-trained checkpoint
+# - Image Input: Serial input from a monochrome Line-Scan camera 
+# - Script: Yolo11-EdgeDetection.ipynb
+# - A visual representation of the result is shown in the image below.
+![edge-detection](edge-detection-result/edge-detection-result.png?raw=true "edge-detection")
+
+###  Requirements for Metal Type and Color Detection 
+
+This module identifies metallic materials (e.g., copper vs. aluminum) using color features extracted from RGB cameras.  
+A Raspberry Pi was used with an ELP USB camera and a PIR motion sensor mounted above the vibration feeder (vibro-feeder) and conveyor belt.  
+As shown in the image below, the ELP camera was fixed to monitor material flow for real-time color analysis.
+
+![Digitaizing vibration line](Digitaizing vibration line/Digitaizing vibration line.jpeg?raw=true "Digitaizing vibration line")
+
+
+- **Color space**: HSV  
+- **Algorithms used**: KMeans clustering and Decision Trees  
+- **Live video output**: Annotated in real time with class labels  
+- **Dataset**: Custom dataset with RGB values and class labels (CSV format)
+
+#### Hardware:
+- Raspberry Pi 4
+- ELP 8MP USB camera with 5–50mm lens (mounted above feeder)
+- PIR motion sensor
+
+#### Software requirements:
+```bash
+pip install opencv-python scikit-learn pandas numpy
+```
+# - OS: Raspberry Pi OS or Ubuntu
+# - Script: lsm_beforewebcam.py and gravels_count.py
+# - Input data: hsv_data.csv
+# - A visual representation of the result is shown in the image below.
+![PiVisionSort](PiVisionSort/PiVisionSort.png?raw=true "PiVisionSort")
+
+
+### Requirements for System Speed Optimization (Smart-Separator)
+# - This subsystem learns optimal speed settings for the conveyor, drum, and vibration feeder using a trained Random Forest model.
+# - 81 different separation scenarios were tested and recorded, covering combinations of input materials and speed settings.
+
+# - The model’s input features are the measured weights of misclassified materials after separation (plastic, aluminum, copper and brass), and energy consumption.
+# - The model outputs the recommended optimal speed values to improve sorting accuracy while minimizing power usage.
+# - A few visual representation of error collection process is shown in the below images.
+![output1](output1/output1.jpeg?raw=true "output1")
+![output2](output2/output2.jpeg?raw=true "output2")
+![output3](output3/output3.jpeg?raw=true "output3")
+
+##  Software requirements:
+# - Python 3.11+
+```bash
+pip install pandas scikit-learn matplotlib openpyxl
+```
+# - Jupyter Notebook environment recommended
+# - Input data:SpeedOptimizationDataset.ods
+# - Script: Smart-Separator.ipynb
+
+# The below images shows an accurate separation of the materials.
+![Accurate-separated-material](Accurate-separated-material/Accurate-separated-material.jpeg?raw=true "Accurate-separated-material")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
