@@ -7,10 +7,12 @@
 Closing material and resource cycles is an integral part of the circular economy. Many products (especially electronic devices) are becoming increasingly complex regarding their structure and raw materials. To recover raw materials, the products must be broken down into ever-finier grain sizes and subsequently sorted. In general, dry sorting processes achieve good sorting results in the fine particle size range with lower throughputs. However, when increasing the throughput, the quality of the sorting results decreases considerably. In order to operate profitably, sorting machines must work as close as possible to the tipping point between good quality and maximum throughput while also minimising maintenance downtimes.
 
 The SoRec project focuses on digitalising sorting processes for fine-grained, metal-containing waste streams in the recycling industry. By installing state-of-the-art industrial line cameras and sensors, we are digitizing the conventional sorting method on a moving belt. With the help of advanced AI models and algorithms in deep learning and machine learning, our system can accurately detect materials on the conveyor belt, classify them based on size, shape, and color, and even find their precise edges. With the capability to identify multiple layers of materials, the AI model provides valuable density and volume estimation. To ensure real-time efficiency and control, we have integrated the AI model with powerful computer vision techniques, which handle crucial image processing tasks. This seamless collaboration between AI and computer vision allows us to estimate the belt’s speed and detect any anomalies, ensuring precise sorting and preventing belt misalignments. Our materials, measuring 1 mm to 4 mm in size, demand meticulous attention to detail, necessitating high-level zoom capabilities for precise annotations. With this innovative AI-driven system, we are taking a significant step towards automating and optimizing the sorting process, enhancing productivity, and elevating the industry to new heights of accuracy and efficiency.
-#### Few images of our material has been shown in below images
-![1 mm](1 mm/1 mm.jpeg?raw=true "1 mm")
-![2-3 mm](2-3 mm/2-3 mm.jpeg?raw=true "2-3 mm")
-![4 mm](4 mm/4 mm.jpeg?raw=true "4 mm")
+**Few images of our material has been shown in below images**
+<p align="center">
+  <img src="Images/1 mm.jpeg" alt="Left Image" width="250"/>
+  <img src="Images/2-3 mm.jpeg" alt="Center Image" width="250"/>
+  <img src="Images/4 mm.jpeg" alt="Right Image" width="250"/>
+</p>
 
 
 ## System Architecture
@@ -43,7 +45,9 @@ The domain model is the technical core of the system. Classic user management ha
 ## Setup 
 To implement the intelligent Twin-AI BECS system, we first installed the necessary hardware infrastructure and camera modules above the conveyor belt of the eddy current separator. As shown in the below image, a robust mounting stand was custom-built using industrial aluminum item profiles, enabling the installation of multiple cameras at various positions and angles for comprehensive coverage.
 
-![camera-setup](camera-setup/camera-setup.jpg?raw=true "Camera Setup")
+<p align="center">
+  <img src="Images/camera-setup.jpg" alt="Sample Image" width="500"/>
+</p>
 
 ###  Cameras Used
 
@@ -130,7 +134,11 @@ Note: Please refer to paper -> SmartSeparator.pdf
 - Motors: Stepper motors with driver for belt alignment correction
 - Script:LineDetection.ipynb
 - A visual representation is shown in the image below.
-![right-line-detected](right-line-detected/right-line-detected.png?raw=true "right-line-detected")
+  
+<p align="center">
+  <img src="Images/right-line-detected.png" alt="Sample Image" width="500"/>
+</p>
+
 
 ---
 
@@ -138,7 +146,9 @@ Note: Please refer to paper -> SmartSeparator.pdf
 **Requirements for Thermal Fire Detection**
 - Sensor: MLX90640 thermal camera (via I2C)
 - A visual representation of the sensor setup is shown in the image below.
-![heating camera](heating camera/heating camera.jpg?raw=true "heating camera")
+<p align="center">
+  <img src="Images/heating camera.jpg" alt="Sample Image" width="500"/>
+</p>
 
 - Required libraries:
 
@@ -162,7 +172,12 @@ OPC_Daten.Anlage_ausschalten (index = " keep your PLC's index number")
 **Requirements for Material Edge Detection with YOLOv11**
 - Recommended system: Laptop with a dedicated GPU for fast inference
 - A visual representation of the sensor setup is shown in the image below.
-![line-scan-camera](line-scan-camera/line-scan-camera.jpeg?raw=true "line-scan-camera")
+
+<p align="center">
+  <img src="Images/LineScanCamera1.jpeg" alt="Left Image" width="250"/>
+  <img src="Images/LineScanCamera2.jpeg" alt="Center Image" width="250"/>
+  <img src="Images/LineScanCamera3.jpeg" alt="Right Image" width="250"/>
+</p>
 
 - Install PyTorch and Ultralytics:
 ```bash
@@ -173,7 +188,10 @@ pip install ultralytics
 - Image Input: Serial input from a monochrome Line-Scan camera 
 - Script: Yolo11-EdgeDetection.ipynb
 - A visual representation of the result is shown in the image below.
-![edge-detection](edge-detection-result/edge-detection-result.png?raw=true "edge-detection")
+<p align="center">
+  <img src="Images/edge-detection-result.png" alt="Sample Image" width="500"/>
+</p>
+
 
 ---
 
@@ -184,7 +202,10 @@ This module identifies metallic materials (e.g., copper vs. aluminum) using colo
 A Raspberry Pi was used with an ELP USB camera and a PIR motion sensor mounted above the vibration feeder (vibro-feeder) and conveyor belt.  
 As shown in the image below, the ELP camera was fixed to monitor material flow for real-time color analysis.
 
-![Digitaizing vibration line](Digitaizing vibration line/Digitaizing vibration line.jpeg?raw=true "Digitaizing vibration line")
+<p align="center">
+  <img src="Images/Digitaizing vibration line.jpeg" alt="Sample Image" width="500"/>
+</p>
+
 
 - Color space: HSV  
 - Algorithms used: KMeans clustering and Decision Trees  
@@ -204,7 +225,10 @@ pip install opencv-python scikit-learn pandas numpy
 - Script: lsm_beforewebcam.py and gravels_count.py
 - Input data: hsv_data.csv
 - A visual representation of the result is shown in the image below.
-![PiVisionSort](PiVisionSort/PiVisionSort.png?raw=true "PiVisionSort")
+<p align="center">
+  <img src="Images/PiVisionSort.png" alt="Sample Image" width="500"/>
+</p>
+
 
 ---
 
@@ -215,9 +239,12 @@ pip install opencv-python scikit-learn pandas numpy
 - The model’s input features are the measured weights of misclassified materials after separation (plastic, aluminum, copper and brass), and energy consumption.
 - The model outputs the recommended optimal speed values to improve sorting accuracy while minimizing power usage.
 - A few visual representation of error collection process is shown in the below images.
-![output1](output1/output1.jpeg?raw=true "output1")
-![output2](output2/output2.jpeg?raw=true "output2")
-![output3](output3/output3.jpeg?raw=true "output3")
+<p align="center">
+  <img src="Images/output1.jpeg" alt="Left Image" width="250"/>
+  <img src="Images/output2.jpeg" alt="Center Image" width="250"/>
+  <img src="Images/output3.jpeg" alt="Right Image" width="250"/>
+</p>
+
 
 ###  Software requirements:
 - Python 3.11+
@@ -229,7 +256,9 @@ pip install pandas scikit-learn matplotlib openpyxl
 - Script: Smart-Separator.ipynb
 
 - The below images shows an accurate separation of the materials.
-![Accurate-separated-material](Accurate-separated-material/Accurate-separated-material.jpeg?raw=true "Accurate-separated-material")
+<p align="center">
+  <img src="Images/Accurate-separated-material.jpeg" alt="Sample Image" width="500"/>
+</p>
 
 
 
