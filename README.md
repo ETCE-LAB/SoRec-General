@@ -201,9 +201,82 @@ pip install ultralytics
   <img src="Images/edge-detection-result.png" alt="Sample Image" width="500"/>
 </p>
 
+**Troubleshooting & Common Challenges**
+
+This section outlines the most common issues you might face during setup and execution, along with recommended solutions and relevant commands.
+ـ- 
+**YOLOv11 Setup: GPU Inference Issues**
+
+One common issue with YOLOv11 is the model not running on the GPU even when one is available. This is usually due to:
+
+- Mismatched PyTorch and CUDA versions
+- Missing or misconfigured GPU drivers
+  
+**Solution: Verify GPU Compatibility**
+Make sure your system detects your GPU and PyTorch is configured for CUDA:
+
+```bash
+python -c "import torch; print(torch.cuda.is_available())"
+```
+If the output is False, your model is running on CPU and you must:
+
+- Install correct GPU drivers for your hardware (e.g., NVIDIA)
+- Install PyTorch with CUDA support. Recommended version for YOLOv11:
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+-
+Check torch version and device:
+
+```bash
+import torch
+print(torch.__version__)
+print(torch.cuda.get_device_name(0))
+```
+- If using Jupyter Notebook, ensure the runtime uses GPU:
+
+```bash
+!nvidia-smi
+```
+
+**Line-Scan Camera Image Quality Issues**
+Working with line-scan cameras requires careful setup to achieve optimal image quality. Problems often arise due to poor lighting, lens mismatch, or incorrect camera speed.
+
+Best Practices:
+
+- Ensure consistent and strong lighting — preferably diffuse LED panels.
+- Use proper lens and distance from the conveyor belt (adjust based on object size and camera resolution).
+- Test with varied conveyor speeds to avoid motion blur.
+- Verify your line-scan camera software (e.g., Pylon Viewer) is installed and configured:
+  
+```bash
+sudo apt update
+sudo apt install pylon
+```
+
+**PyTorch & Ultralytics Compatibility**
+To avoid dependency issues, it’s important to install the compatible versions of PyTorch and Ultralytics:
+
+``bash
+pip install torch==2.0.1 torchvision==0.15.2
+pip install ultralytics
+```
+
+Check versions to confirm installation:
+
+``bash
+python -c "import torch; import torchvision; print(torch.__version__, torchvision.__version__)"
+```
+
+**Line-Scan Image Annotation Format**
+If you're facing issues with training or annotation:
+
+- Use YOLOv11 segmentation format (with .txt polygon coordinates)
+- Make sure all .txt label files match image names and are inside the correct folder (usually train/labels)
+- You can use tools like Roboflow, LabelMe, or CVAT for proper annotation.
 
 ---
-
 
 **Requirements for Metal Type and Color Detection**
 
@@ -239,6 +312,28 @@ pip install opencv-python scikit-learn pandas numpy
 </p>
 
 
+**Camera not working or not detected**
+If PiCamera or USB cameras (like ELP or GoPro) are not detected:
+Check Raspberry Pi OS config:
+
+```bash
+sudo raspi-config
+```
+- Go to Interface Options → Camera → Enable
+
+For USB cameras:
+
+```bash
+ls /dev/video*
+```
+
+Use OpenCV to verify:
+
+```bash
+import cv2
+cap = cv2.VideoCapture(0)
+print(cap.isOpened())
+```
 ---
 
 
@@ -271,61 +366,23 @@ pip install pandas scikit-learn matplotlib openpyxl
 
 
 
+### Case Study: Deployment in Real Industrial Environment
 
+The **Twin-AI BECS** system was deployed in a real e-waste recycling facility over the course of one year. During operation, several key challenges were identified:
 
+- Frequent conveyor belt misalignments, causing material loss and mechanical issues. 
+- Risk of overheating and fire due to trapped ferromagnetic particles near the magnetic drum. 
+- Inaccurate separation caused by the presence of sharp-edged or irregular materials.  
+- Low separation accuracy, especially when input materials varied in shape and size (1mm-4mm).  
+- High energy consumption due to unoptimized speed configurations for the drum's angle, conveyor belt, and vibration feeder.  
 
+To address these issues, we implemented the following smart modules:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- `BeltMisalignmentDetection and Correction`: For detection and correction of conveyor misalignment using OpenCV and stepper motors. 
+- `FireGuard`: For thermal fire detection and alerting via Telegram.  
+- `Material-Edge-Detection`: To classify sharp vs. smooth materials on the belt using YOLOv11.  
+- `PiVisionSort`: For metal color recognition (e.g., copper vs. aluminum and brass) using RGB analysis.  
+- `Smart-Separator`: A Random Forest model to recommend optimal speed settings for belt, drum's angle, and vibration feed, based on weight analysis at the output.   
 
 
 ## Contributors (Past and Present)
