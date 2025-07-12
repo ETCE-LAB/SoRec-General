@@ -205,7 +205,7 @@ A Raspberry Pi was used with an ELP USB camera and a PIR motion sensor mounted a
 As shown in the image below, the ELP camera was fixed to monitor material flow for real-time color analysis.
 
 <p align="center">
-  <img src="Images/Digitaizing vibration line.jpeg" alt="Sample Image" width="500"/>
+  <img src="Images/Digitaizing vibration line.jpeg" alt="Sample Image" width="350"/>
 </p>
 
 
@@ -228,7 +228,7 @@ pip install opencv-python scikit-learn pandas numpy
 - Input data: hsv_data.csv
 - A visual representation of the result is shown in the image below.
 <p align="center">
-  <img src="Images/PiVisionSort.png" alt="Sample Image" width="500"/>
+  <img src="Images/PiVisionSort.png" alt="Sample Image" width="650"/>
 </p>
 
 
