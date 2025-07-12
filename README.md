@@ -122,7 +122,14 @@ Note: Please refer to paper -> SmartSeparator.pdf
 ### Hardware and Software Requirements per Module
 
 ---
-
+### To Get Start
+- Clone the repository and install all the dependencies
+  
+```bash
+git clone https://github.com/ETCE-LAB/SoRec-General.git        
+cd SoRec-General         
+```
+ 
 **Requirements for Belt Misalignment Correction**
 
 - Python version: 3.8 or higher  
