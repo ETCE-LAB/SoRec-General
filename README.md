@@ -270,7 +270,7 @@ pip install ultralytics
 
 Check versions to confirm installation:
 
-``bash
+```bash
 python -c "import torch; import torchvision; print(torch.__version__, torchvision.__version__)"
 ```
 
