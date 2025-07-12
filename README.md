@@ -64,11 +64,11 @@ Over the course of approximately one year, the Twin-AI BECS system was deployed 
 
 Images and videos were captured continuously from multiple camera angles. In parallel, several team members manually annotated the collected data to prepare high-quality training datasets for the machine vision models used in the project.
 
-### The complete dataset — including raw images, annotated masks, and labeled samples — is publicly available at:
+#### The complete dataset — including raw images, annotated masks, and labeled samples — is publicly available at:
 
 [Project Dataset on Göttingen Research Online](https://data.goettingen-research-online.de/dataverseuser.xhtml?selectTab=dataRelatedToMe)
 
-## SoRec Project Structure and Submodules
+### SoRec Project Structure and Submodules
 
 The comprehensive **SoRec project** (Smart Optimization and Recognition in Eddy Current Separator) was divided into **three core subprojects** to simplify implementation and modular development:
 
@@ -87,15 +87,17 @@ The comprehensive **SoRec project** (Smart Optimization and Recognition in Eddy 
 - **AutoBeltAlign**: Detects and corrects conveyor misalignment using OpenCV
 - **FireGuard**: Detects fire risk and sends alerts via thermal camera and Telegram
 - **Material-Edge-Detection**: Identifies sharp-edged particles using YOLOv11 segmentation
-#### Note: Please refer to paper -> SmartBelt.pdf 
+Note: Please refer to paper -> SmartBelt.pdf 
 
 ---
 
 ###  Metal Type and Color Recognition (PiVisionSort)
 
 This module uses RGB camera input and color features (HSV space) to distinguish between different metal types, such as **copper vs. aluminum**.  
-It employs lightweight machine learning algorithms like **KMeans** and **Decision Trees**, with real-time classification displayed directly on the video feed.
-#### Note: Please refer to paper -> PiVisionSort.pdf
+It employs lightweight machine learning algorithms like KMeans and Decision Trees, with real-time classification displayed directly on the video feed.
+Note: Please refer to paper -> PiVisionSort.pdf
+
+---
 
 ### Smart Separator Optimization
 
@@ -107,11 +109,15 @@ This submodule trains a **Random Forest regression model** to analyze output mat
 - Drum angle  
 
 This leads to improved separation quality and reduced energy consumption.
-#### Note: Please refer to paper -> SmartSeparator.pdf
+Note: Please refer to paper -> SmartSeparator.pdf
+
+---
 
 ### Hardware and Software Requirements per Module
 
-### Requirements for Belt Misalignment Correction
+---
+
+**Requirements for Belt Misalignment Correction**
 
 - Python version: 3.8 or higher  
 - Required libraries:
@@ -126,34 +132,40 @@ This leads to improved separation quality and reduced energy consumption.
 - A visual representation is shown in the image below.
 ![right-line-detected](right-line-detected/right-line-detected.png?raw=true "right-line-detected")
 
-### Requirements for Thermal Fire Detection
+---
+
+
+**Requirements for Thermal Fire Detection**
 - Sensor: MLX90640 thermal camera (via I2C)
 - A visual representation of the sensor setup is shown in the image below.
 ![heating camera](heating camera/heating camera.jpg?raw=true "heating camera")
 
 - Required libraries:
 
-  ```bash
+```bash
 pip install adafruit-circuitpython-mlx90640
 pip install python-telegram-bot
 pip install python-opcua
 ```
 
-## - Telegram Bot: Set the token in a .env file
-## - PLC Integration: Define an OPC UA node:
-  ```bash
+- Telegram Bot: Set the token in a .env file
+- PLC Integration: Define an OPC UA node:
+  
+```bash
 OPC_Daten.Anlage_ausschalten (index = " keep your PLC's index number")
 ```
 - Script:Fire_detection_module.ipynb
+  
+---
 
 
-### Requirements for Material Edge Detection with YOLOv11
+**Requirements for Material Edge Detection with YOLOv11**
 - Recommended system: Laptop with a dedicated GPU for fast inference
 - A visual representation of the sensor setup is shown in the image below.
 ![line-scan-camera](line-scan-camera/line-scan-camera.jpeg?raw=true "line-scan-camera")
 
 - Install PyTorch and Ultralytics:
-  ```bash
+```bash
 pip install torch torchvision
 pip install ultralytics
 ```
@@ -163,7 +175,10 @@ pip install ultralytics
 - A visual representation of the result is shown in the image below.
 ![edge-detection](edge-detection-result/edge-detection-result.png?raw=true "edge-detection")
 
-### Requirements for Metal Type and Color Detection 
+---
+
+
+**Requirements for Metal Type and Color Detection**
 
 This module identifies metallic materials (e.g., copper vs. aluminum) using color features extracted from RGB cameras.  
 A Raspberry Pi was used with an ELP USB camera and a PIR motion sensor mounted above the vibration feeder (vibro-feeder) and conveyor belt.  
@@ -191,11 +206,12 @@ pip install opencv-python scikit-learn pandas numpy
 - A visual representation of the result is shown in the image below.
 ![PiVisionSort](PiVisionSort/PiVisionSort.png?raw=true "PiVisionSort")
 
+---
 
-### Requirements for System Speed Optimization (Smart-Separator)
+
+**Requirements for System Speed Optimization**
 - This subsystem learns optimal speed settings for the conveyor, drum, and vibration feeder using a trained Random Forest model.
 - 81 different separation scenarios were tested and recorded, covering combinations of input materials and speed settings.
-
 - The model’s input features are the measured weights of misclassified materials after separation (plastic, aluminum, copper and brass), and energy consumption.
 - The model outputs the recommended optimal speed values to improve sorting accuracy while minimizing power usage.
 - A few visual representation of error collection process is shown in the below images.
