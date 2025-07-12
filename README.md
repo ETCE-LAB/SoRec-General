@@ -319,6 +319,7 @@ pip install opencv-python scikit-learn pandas numpy
 
 
 **Camera not working or not detected**
+
 If PiCamera or USB cameras (like ELP or GoPro) are not detected:
 Check Raspberry Pi OS config:
 
