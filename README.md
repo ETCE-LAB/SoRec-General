@@ -72,7 +72,7 @@ Images and videos were captured continuously from multiple camera angles. In par
 
 #### The complete dataset — including raw images, annotated masks, and labeled samples — is publicly available at:
 
-[Project Dataset on Göttingen Research Online](https://data.goettingen-research-online.de/dataverseuser.xhtml?selectTab=dataRelatedToMe](https://data.goettingen-research-online.de/dataverse/BECS-Smart-Separation-Data)
+[Project Dataset on Göttingen Research Online](https://data.goettingen-research-online.de/dataverse/BECS-Smart-Separation-Data)
 
 ### SoRec Project Structure and Submodules
 
